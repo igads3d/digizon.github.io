@@ -1,0 +1,12 @@
+@startuml
+skinparam class {
+	BackgroundColor White
+	ArrowColor Black
+	BorderColor Black
+}
+class "Слесарь" as P {
+ Сварочный аппарат, ножницы по металлу
+Изготовить (обрезки арматуры и сталь 3мм, запрос родителей): мангал
+}
+hide circle
+@enduml
