@@ -1,0 +1,22 @@
+@startuml
+actor "Клиент" as actor
+boundary "Биллинг система" as billing
+control "Касса или терминал оплаты" as pos
+entity "ERP" as server
+database "БД: услуги" as db
+
+
+actor -> billing: Товар или Услуга
+billing -> pos: Запрос на оплату
+pos-> billing: Возврат ссылки на портал эквайринга
+actor -> pos: Деньги
+pos-> actor: Чек на услугу
+pos -> billing: Информация об успешном проведении оплаты
+billing -> server: Код услуги
+server -> db: Создание заявки на оказание услуги
+server -> db: Изменение количества оставшихся расходников
+server -> db: Подтверждение предоставления услуги
+server -> db: Изменение статуса услуги
+db -> server: Сообщение об успешном изменении строк
+server -> billing: "Оплачено"
+@enduml
