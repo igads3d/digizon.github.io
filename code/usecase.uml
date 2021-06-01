@@ -1,0 +1,35 @@
+@startuml
+skinparam monochrome true
+hide circle
+hide methods
+left to right direction
+
+actor Клиент as client
+actor Программист as dev
+actor Пользователь as user
+client <|-down- dev
+client <|-down- user
+
+package "CI/CD пайплайн" {
+  usecase "Запушить код" as push
+  usecase "Посмотреть результат\nвыполнения пайплайна" as logs
+  usecase "Воспользоваться приложением" as use
+}
+
+actor "Системный\nмодуль" as sys
+actor "VCS" as git
+actor "Сервер автоматизации" as ci
+actor "Система управления\nконтейнерной инфраструктурой" as kuber
+sys -up-|> git
+sys -up-|> ci
+sys -up-|> kuber
+
+dev -- push
+dev -- logs
+user -- use
+push -- git
+push -- ci
+logs -- git
+logs -- ci
+use -- kuber
+@enduml
