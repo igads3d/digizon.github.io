@@ -1,0 +1,45 @@
+@startuml
+node VM1 as node1 {
+  node "Kubernetes control plane" as kuber1 {
+    component "Kubernetes internals" as kint1
+    package "Kubernetes pods" as pods1 {
+      package "Demo web application 1" as demo1
+    }
+  }
+}
+
+node VM2 as node2 {
+  node "Kubernetes worker node" as kuber2 {
+    component "Kubernetes internals" as kint2
+    package "Kubernetes pods" as pods2 {
+      package "Gitlab runner 1" as runner1
+      package "Gitlab runner 2" as runner2
+      package "Demo web application 2" as demo2
+    }
+  }
+}
+
+node VM3 as node3 {
+  package Gitlab as gitlab {
+    package Gitlab  as git {
+      artifact Code as code
+      file "Pipeline config" as gitlabci
+    }
+    package "Gitlab CI" as CI
+  }
+}
+
+node1 == node2
+node1 == node3
+node2 == node3
+
+kint1 .le. kint2
+
+kint1 --> pods1
+kint2 --> pods2
+
+git --> CI
+
+gitlab <--> runner1
+gitlab <--> runner2
+@enduml
